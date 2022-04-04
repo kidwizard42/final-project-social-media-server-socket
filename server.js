@@ -1,6 +1,5 @@
 const app = require('express')();
 const http = require('http').Server(app);
-// const io = require('socket.io')(http);
 const io = require("socket.io")(http, {
   cors: {
     origin: ["http://localhost:3000","http://localhost:3001","http://localhost:4000","https://hidden-forest-41310.herokuapp.com", "https://hidden-forest-41310.herokuapp.com/"],
@@ -9,17 +8,20 @@ const io = require("socket.io")(http, {
 });
 const port = process.env.PORT || 3003;
 let groupRoom = ''
-
+let users = 0
 io.on('connection', socket => {
-  
+  users++
+  io.emit('userNum', users)
   socket.on('disconnect', () => {
-    // console.log('user has disconnected')
+    users--
+    io.emit('userNum', users)
   })
 
   socket.on('message', (message,name) => {
-    if(!name){
+    if(!name || name.trim() == ""){
       io.emit('message', message,`USER-${socket.id}`)
     }else{
+      console.log(name)
       io.emit('message', message, name)
     }
   })
@@ -28,5 +30,5 @@ io.on('connection', socket => {
 })
 
 http.listen(port, () => {
-  console.log(`Socket.IO server running at PORT:${port}/`);
+  console.log(`Socket.IO ARC||leaderboard running at PORT:${port}/`);
 });
