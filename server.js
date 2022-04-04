@@ -2,7 +2,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require("socket.io")(http, {
   cors: {
-    origin: ["http://localhost:3000","http://localhost:3001","http://localhost:4000", "https://murmuring-bayou-78293.herokuapp.com/"],
+    origin: ["http://localhost:3000","http://localhost:3001","http://localhost:4000", "https://murmuring-bayou-78293.herokuapp.com/", "https://murmuring-bayou-78293.herokuapp.com"],
     methods: ["GET", "POST"]
   }
 });
